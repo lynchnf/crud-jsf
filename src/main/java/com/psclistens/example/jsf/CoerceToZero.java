@@ -8,10 +8,12 @@ import javax.servlet.ServletContextListener;
  * 
  * @author LYNCHNF
  */
-public class Config implements ServletContextListener {
+public class CoerceToZero implements ServletContextListener {
+    @Override
     public void contextInitialized(ServletContextEvent event) {
         System.setProperty("org.apache.el.parser.COERCE_TO_ZERO", "false");
     }
 
+    @Override
     public void contextDestroyed(ServletContextEvent event) {}
 }

@@ -6,4 +6,11 @@
     <lifecycle>
         <phase-listener>com.psclistens.example.jsf.PhaseLogger</phase-listener>
     </lifecycle>
+    <application>
+        <message-bundle>com.psclistens.example.jsf.Messages</message-bundle>
+        <resource-bundle>
+            <base-name>com.psclistens.example.jsf.CrudMessages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
+    </application>
 </faces-config>

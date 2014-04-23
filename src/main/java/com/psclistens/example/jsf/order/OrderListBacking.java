@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -13,10 +15,13 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
+import org.apache.commons.lang.WordUtils;
+
 import com.psclistens.example.crud.CrudException;
 import com.psclistens.example.crud.CrudMode;
 import com.psclistens.example.domain.OrderStatus;
 import com.psclistens.example.jsf.FacesContextUtil;
+import com.psclistens.example.jsf.SelectItem;
 import com.psclistens.example.service.OrderService;
 import com.psclistens.example.service.filter.request.OrderByDirection;
 import com.psclistens.example.service.filter.request.OrderFilterRequest;
@@ -40,6 +45,7 @@ public class OrderListBacking implements Serializable {
     private String whereCustomerName;
     private Date whereEntryDate;
     private OrderStatus whereOrderStatus;
+    private SelectItem[] orderStatusOptions;
 
     private int pageSize;
     private DataModel<OrderListRow> resultList;
@@ -48,6 +54,14 @@ public class OrderListBacking implements Serializable {
     public OrderListBacking() {
         filterRequest = (OrderFilterRequest) FacesContextUtil.getFromFlash("filterRequest");
         if (filterRequest == null) filterRequest = new OrderFilterRequest();
+
+        SortedSet<SelectItem> optionSet = new TreeSet<>();
+        for (OrderStatus orderStatus : OrderStatus.values()) {
+            String label = WordUtils.capitalizeFully(orderStatus.toString().replace('_', ' '));
+            optionSet.add(new SelectItem(orderStatus, label));
+        }
+        SelectItem[] optionArray = new SelectItem[optionSet.size()];
+        orderStatusOptions = optionSet.toArray(optionArray);
     }
 
     public Long getWhereId() {
@@ -90,8 +104,8 @@ public class OrderListBacking implements Serializable {
         this.whereOrderStatus = whereOrderStatus;
     }
 
-    public OrderStatus[] getOrderStatusOptions() {
-        return OrderStatus.values();
+    public SelectItem[] getOrderStatusOptions() {
+        return orderStatusOptions;
     }
 
     public int getPageNumber() {

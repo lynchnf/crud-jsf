@@ -12,6 +12,7 @@
 hs_err_pid*
 
 # Eclipse files and build directories
+.metadata
 .settings
 build
 target

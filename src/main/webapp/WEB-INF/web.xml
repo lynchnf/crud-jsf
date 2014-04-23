@@ -7,7 +7,7 @@
     <display-name>Example CRUD JSF Webapp</display-name>
 
     <listener>
-        <listener-class>com.psclistens.example.jsf.Config</listener-class>
+        <listener-class>com.psclistens.example.jsf.CoerceToZero</listener-class>
     </listener>
 
     <servlet>
@@ -23,13 +23,10 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
-
-    <!-- I'm not sure exactly what this does or if I need it. -->
-<!-- <context-param>
-        <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>client</param-value>
-    </context-param> -->
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>

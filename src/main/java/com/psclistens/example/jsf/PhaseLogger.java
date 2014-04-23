@@ -26,7 +26,6 @@ public class PhaseLogger implements PhaseListener {
     }
 
     public void afterPhase(PhaseEvent event) {
-        log.trace("--------------------------------------------------");
-        if (event.getPhaseId() == PhaseId.RENDER_RESPONSE) log.trace(">>> Display Page <<<");
+        log.trace("---------- " + event.getPhaseId() + " --------------------");
     }
 }
