@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>CRUD Webapp Example - Order List</title>
+    <h:outputStylesheet library="css" name="main.css" />
+</h:head>
+<h:body>
+    <h1>CRUD Webapp Example</h1>
+    <h:messages errorClass="error" infoClass="message" />
+    <h2>Order List</h2>
+    <h:form>
+        <h:commandButton value="Add New" action="#{orderListBacking.add}" immediate="true" />#{" "}
+        <h:commandButton value="Reload Page" action="#{orderListBacking.reload}" immediate="true" />#{" "}
+        <h:commandButton value="Main Menu" action="index" immediate="true" />
+        <ul>
+            <li>Order Id equals <h:inputText value="#{orderListBacking.whereId}" size="5" label="Order Id" /></li>
+            <li>Customer Id equals <h:inputText value="#{orderListBacking.whereCustomerId}" size="5" label="Customer Id" /></li>
+            <li>Customer Name like <h:inputText value="#{orderListBacking.whereCustomerName}" size="50" /></li>
+            <li>Entry Date on or after <h:inputText value="#{orderListBacking.whereEntryDate}" size="10" label="Entry Date">
+                    <f:convertDateTime type="date" dateStyle="short" />
+                </h:inputText> m/d/y
+            </li>
+            <li>Order Status equals <h:selectOneMenu value="#{orderListBacking.whereOrderStatus}">
+                    <f:selectItem />
+                    <f:selectItems value="#{orderListBacking.orderStatusOptions}" />
+                </h:selectOneMenu></li>
+        </ul>
+        <h:commandButton value="Filter List" action="#{orderListBacking.changeWhere}" />#{" "}
+        <h:panelGroup rendered="#{orderListBacking.pageNumber gt 1}">
+            <h:commandLink value="&lt;&lt;" action="#{orderListBacking.changePageNumber}">
+                <f:param name="pageNumber" value="1" />
+            </h:commandLink>#{" "}
+            <h:commandLink value="&lt;" action="#{orderListBacking.changePageNumber}">
+                <f:param name="pageNumber" value="#{orderListBacking.pageNumber - 1}" />
+            </h:commandLink>
+        </h:panelGroup>
+        page #{orderListBacking.pageNumber} of #{orderListBacking.totalPages}
+        <h:panelGroup rendered="#{orderListBacking.pageNumber lt orderListBacking.totalPages}">
+            <h:commandLink value="&gt;" action="#{orderListBacking.changePageNumber}">
+                <f:param name="pageNumber" value="#{orderListBacking.pageNumber + 1}" />
+            </h:commandLink>#{" "}
+            <h:commandLink value="&gt;&gt;" action="#{orderListBacking.changePageNumber}">
+                <f:param name="pageNumber" value="#{orderListBacking.totalPages}" />
+            </h:commandLink>
+        </h:panelGroup>
+        page size
+        <h:selectOneMenu value="#{orderListBacking.pageSize}" valueChangeListener="#{orderListBacking.changePageSize}" onchange="submit();">
+            <f:selectItems value="#{orderListBacking.pageSizeOptions}" />
+        </h:selectOneMenu>#{" "}
+        <h:commandButton value="Copy Checked" action="#{orderListBacking.copy}" />
+        <h:dataTable value="#{orderListBacking.resultList}" var="row">
+            <h:column>
+                <h:selectBooleanCheckbox value="#{row.checked}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="Order Id" action="#{orderListBacking.changeOrderBy}">
+                        <f:param name="orderByField" value="ID" />
+                    </h:commandLink>
+                </f:facet>
+                <h:commandLink value="#{row.orderListVO.id}" action="#{orderListBacking.edit}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="Customer Id" action="#{orderListBacking.changeOrderBy}">
+                        <f:param name="orderByField" value="CUSTOMER_ID" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{row.orderListVO.customerId}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="Customer Name" action="#{orderListBacking.changeOrderBy}">
+                        <f:param name="orderByField" value="CUSTOMER_NAME" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{row.orderListVO.customerName}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="Entry Date" action="#{orderListBacking.changeOrderBy}">
+                        <f:param name="orderByField" value="ENTRY_DATE" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{row.orderListVO.entryDate}">
+                    <f:convertDateTime type="date" dateStyle="short" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink value="Order Status" action="#{orderListBacking.changeOrderBy}">
+                        <f:param name="orderByField" value="ORDER_STATUS" />
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{row.orderListVO.orderStatus}" />
+            </h:column>
+        </h:dataTable>
+    </h:form>
+</h:body>
+</html>

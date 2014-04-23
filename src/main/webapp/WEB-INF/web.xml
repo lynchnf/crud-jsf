@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    version="2.5">
+
+    <description>Example of a simple CRUD Web application using JavaServer Faces.</description>
+    <display-name>Example CRUD JSF Webapp</display-name>
+
+    <listener>
+        <listener-class>com.psclistens.example.jsf.Config</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+
+    <!-- I'm not sure exactly what this does or if I need it. -->
+<!-- <context-param>
+        <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
+    </context-param> -->
+
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!-- Error Pages -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/faces/SecurityError.xhtml</location>
+    </error-page>
+
+    <!-- Security -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>menu</web-resource-name>
+            <url-pattern>/faces/index.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>*</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>customer</web-resource-name>
+            <url-pattern>/faces/CustomerList.xhtml</url-pattern>
+            <url-pattern>/faces/CustomerEdit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>customer</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>item</web-resource-name>
+            <url-pattern>/faces/ItemList.xhtml</url-pattern>
+            <url-pattern>/faces/ItemEdit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>item</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>order</web-resource-name>
+            <url-pattern>/faces/OrderList.xhtml</url-pattern>
+            <url-pattern>/faces/OrderEdit.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>order</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/Login.html</form-login-page>
+            <form-error-page>/faces/LoginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <security-role>
+        <role-name>customer</role-name>
+    </security-role>
+    <security-role>
+        <role-name>item</role-name>
+    </security-role>
+    <security-role>
+        <role-name>order</role-name>
+    </security-role>
+    <!-- The security role entry below is needed to allow users with none of the above roles to see the main menu. -->
+    <security-role>
+        <role-name>*</role-name>
+    </security-role>
+</web-app>

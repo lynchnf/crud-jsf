@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>CRUD Webapp Example - Customer Edit</title>
+    <h:outputStylesheet library="css" name="main.css" />
+</h:head>
+<h:body>
+    <h1>CRUD Webapp Example</h1>
+    <h:messages errorClass="error" infoClass="message" />
+    <h2>Customer Edit</h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Customer Id" rendered="#{customerEditBacking.mode == 'UPDATE'}" />
+            <h:outputText value="#{customerEditBacking.originalId}" rendered="#{customerEditBacking.mode == 'UPDATE'}" />
+            <h:outputLabel value="Name" />
+            <h:inputText value="#{customerEditBacking.name}" size="100" />
+            <h:outputLabel value="Discount" />
+            <h:inputText value="#{customerEditBacking.discount}" size="5" label="Discount">
+                <f:converter converterId="com.psclistens.percent" />
+                <f:attribute name="minFractionDigits" value="1" />
+            </h:inputText>
+        </h:panelGrid>
+        <h:commandButton value="Save" action="#{customerEditBacking.save}" />#{" "}
+        <h:commandButton value="Reload Page" action="#{customerEditBacking.reload}" immediate="true" />#{" "}
+        <h:commandButton value="Cancel" action="#{customerEditBacking.cancel}" immediate="true" />
+    </h:form>
+</h:body>
+</html>

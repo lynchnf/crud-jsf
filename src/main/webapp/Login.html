@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>CRUD Webapp Example - Log In</title>
+</head>
+<body>
+    <h1>CRUD Webapp Example</h1>
+    <h2>Log In</h2>
+    <form action="j_security_check" method="post">
+        <table>
+            <tr>
+                <th>User name</th>
+                <td><input type="text" name="j_username"></td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td><input type="password" name="j_password"></td>
+            </tr>
+        </table>
+        <input type="submit" name="loginButton" value="Log In">
+    </form>
+
+    <p>Note: The following entries should be added to file <code>tomcat-users.xml</code> in directory <code>%TOMCAT-HOME%/conf</code>.</p>
+    <pre>
+    &lt;role rolename=&quot;customer&quot; /&gt;
+    &lt;role rolename=&quot;item&quot; /&gt;
+    &lt;role rolename=&quot;order&quot; /&gt;
+
+    &lt;user username=&quot;all&quot;      password=&quot;all&quot;      roles=&quot;customer,item,order&quot; /&gt;
+    &lt;user username=&quot;customer&quot; password=&quot;customer&quot; roles=&quot;customer&quot; /&gt;
+    &lt;user username=&quot;item&quot;     password=&quot;item&quot;     roles=&quot;item&quot; /&gt;
+    &lt;user username=&quot;order&quot;    password=&quot;order&quot;    roles=&quot;order&quot; /&gt;
+    &lt;user username=&quot;none&quot;     password=&quot;none&quot; /&gt;
+    </pre>
+</body>
+</html>

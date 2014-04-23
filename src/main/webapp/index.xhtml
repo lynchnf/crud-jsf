@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>CRUD Webapp Example</title>
+    <h:outputStylesheet library="css" name="main.css" />
+</h:head>
+<h:body>
+    <h1>CRUD Webapp Example</h1>
+    <h:messages errorClass="error" infoClass="message" />
+    <h2>Main Menu</h2>
+    <h:form>
+        <ul>
+            <li><h:commandLink value="Manage Customers" action="CustomerList?faces-redirect=true" /></li>
+            <li><h:commandLink value="Manage Items" action="ItemList?faces-redirect=true" /></li>
+            <li><h:commandLink value="Manage Orders" action="OrderList?faces-redirect=true" /></li>
+            <li><h:commandLink value="Log Out" action="#{menuBacking.logOut}" /></li>
+        </ul>
+    </h:form>
+</h:body>
+</html>

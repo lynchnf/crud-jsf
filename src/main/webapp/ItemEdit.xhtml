@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>CRUD Webapp Example - Item Edit</title>
+    <h:outputStylesheet library="css" name="main.css" />
+</h:head>
+<h:body>
+    <h1>CRUD Webapp Example</h1>
+    <h:messages errorClass="error" infoClass="message" />
+    <h2>Item Edit</h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="SKU" />
+            <h:inputText value="#{itemEditBacking.sku}" size="20" required="true" label="SKU" />
+            <h:outputLabel value="Description" />
+            <h:inputText value="#{itemEditBacking.description}" size="100" />
+            <h:outputLabel value="Unit Price" />
+            <h:inputText value="#{itemEditBacking.unitPrice}" size="10" label="Unit Price">
+                <f:converter converterId="com.psclistens.currency" />
+            </h:inputText>
+        </h:panelGrid>
+        <h:commandButton value="Save" action="#{itemEditBacking.save}" />#{" "}
+        <h:commandButton value="Reload Page" action="#{itemEditBacking.reload}" immediate="true" />#{" "}
+        <h:commandButton value="Cancel" action="#{itemEditBacking.cancel}" immediate="true" />
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>CRUD Webapp Example - Order Edit</title>
+    <h:outputStylesheet library="css" name="main.css" />
+</h:head>
+<h:body>
+    <h1>CRUD Webapp Example</h1>
+    <h:messages errorClass="error" infoClass="message" />
+    <h2>Order Edit</h2>
+    <h:form id="orderEdit">
+        <h:commandButton value="Cancel Order" action="#{orderEditBacking.cancelOrder}" rendered="#{orderEditBacking.orderStatus == 'ENTERED' and orderEditBacking.mode == 'UPDATE'}" />
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Order Id" rendered="#{orderEditBacking.mode == 'UPDATE'}" />
+            <h:outputText value="#{orderEditBacking.originalId}" rendered="#{orderEditBacking.mode == 'UPDATE'}" />
+            <h:outputLabel value="Customer Id" />
+            <h:inputText value="#{orderEditBacking.customerId}" size="5" required="true" label="Customer Id" rendered="#{orderEditBacking.mode == 'ADD' or orderEditBacking.mode == 'COPY'}" />
+            <h:outputText value="#{orderEditBacking.customerId}" rendered="#{orderEditBacking.mode == 'UPDATE'}" />
+            <h:outputLabel value="Customer Name" />
+            <h:outputText value="#{orderEditBacking.customerName}" />
+            <h:outputLabel value="Customer Discount" />
+            <h:outputText value="#{orderEditBacking.customerDiscount}">
+                <f:convertNumber type="percent" minFractionDigits="1" />
+            </h:outputText>
+            <h:outputLabel value="Entry Date" />
+            <h:outputText value="#{orderEditBacking.entryDate}">
+                <f:convertDateTime type="date" dateStyle="short" />
+            </h:outputText>
+            <h:outputLabel value="Order Status" />
+            <h:outputText value="#{orderEditBacking.orderStatus}" />
+            <h:outputLabel value="Order Sub-Total" />
+            <h:outputText value="#{orderEditBacking.orderSubTotal}">
+                <f:convertNumber type="currency" />
+            </h:outputText>
+            <h:outputLabel value="Order Discount" />
+            <h:outputText value="#{orderEditBacking.orderDiscount}">
+                <f:convertNumber type="currency" />
+            </h:outputText>
+            <h:outputLabel value="Order Final Total" />
+            <h:outputText value="#{orderEditBacking.orderFinalTotal}">
+                <f:convertNumber type="currency" />
+            </h:outputText>
+        </h:panelGrid>
+        <h:commandButton value="Save Order" action="#{orderEditBacking.save}" rendered="#{orderEditBacking.orderStatus == 'ENTERED'}" />#{" "}
+        <h:commandButton id="recalculateButton" value="Recalculate Order" action="#{orderEditBacking.recalculate}" rendered="#{orderEditBacking.orderStatus == 'ENTERED'}" />#{" "}
+        <h:commandButton value="Undo Changes" action="#{orderEditBacking.reload}" immediate="true" rendered="#{orderEditBacking.orderStatus == 'ENTERED'}" />#{" "}
+        <h:commandButton value="Cancel Edit" action="#{orderEditBacking.cancel}" immediate="true" rendered="#{orderEditBacking.orderStatus == 'ENTERED'}" />
+        <h:commandButton value="Back" action="#{orderEditBacking.cancel}" immediate="true" rendered="#{orderEditBacking.orderStatus != 'ENTERED'}" />
+        <h:dataTable value="#{orderEditBacking.lines}" var="line">
+            <h:column rendered="#{orderEditBacking.orderStatus == 'ENTERED'}">
+                <f:facet name="header">Delete</f:facet>
+                <h:selectBooleanCheckbox value="#{line.orderEditLineVO.removed}" rendered="#{not line.newLine}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Line</f:facet>
+                <h:outputText value="#{orderEditBacking.lines.rowIndex + 1}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">SKU</f:facet>
+                <h:outputText value="#{line.orderEditLineVO.sku}" rendered="#{not line.newLine}" />
+                <h:inputText value="#{line.orderEditLineVO.sku}" size="20" label="Line #{orderEditBacking.lines.rowIndex + 1} SKU" rendered="#{line.newLine}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Description</f:facet>
+                <h:outputText value="#{line.orderEditLineVO.itemDescription}" rendered="#{not line.newLine}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Unit Price</f:facet>
+                <h:outputText value="#{line.orderEditLineVO.unitPrice}" rendered="#{not line.newLine}">
+                    <f:convertNumber type="currency" />
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity</f:facet>
+                <h:outputText value="#{line.orderEditLineVO.quantity}" rendered="#{orderEditBacking.orderStatus != 'ENTERED'}" />
+                <h:inputText value="#{line.orderEditLineVO.quantity}" size="5" label="Line #{orderEditBacking.lines.rowIndex + 1} Quantity" rendered="#{orderEditBacking.orderStatus == 'ENTERED' and not line.newLine}" />
+                <h:inputText value="#{line.orderEditLineVO.quantity}" size="5" label="Line #{orderEditBacking.lines.rowIndex + 1} Quantity" rendered="#{orderEditBacking.orderStatus == 'ENTERED' and line.newLine}" onblur="document.getElementById('orderEdit:recalculateButton').click();" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Line Price</f:facet>
+                <h:outputText value="#{line.orderEditLineVO.linePrice}" rendered="#{not line.newLine}">
+                    <f:convertNumber type="currency" />
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+    </h:form>
+    <ui:debug />
+</h:body>
+</html>
