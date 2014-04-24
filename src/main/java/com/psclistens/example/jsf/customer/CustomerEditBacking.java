@@ -35,7 +35,8 @@ public class CustomerEditBacking implements Serializable {
     private BigDecimal discount;
 
     public CustomerEditBacking() {
-        log.trace("constructed"); // DEBUG
+        log.trace("Constructing " + this.getClass().getSimpleName() + ".");
+
         filterRequest = (CustomerFilterRequest) FacesContextUtil.getFromFlash("filterRequest");
         mode = (CrudMode) FacesContextUtil.getFromFlash("mode");
         originalId = (Long) FacesContextUtil.getFromFlash("originalId");
@@ -60,37 +61,44 @@ public class CustomerEditBacking implements Serializable {
     }
 
     public CrudMode getMode() {
-        log.trace("getMode returns \"" + mode + "\""); // DEBUG
+        log.trace("getMode() returns \"" + mode + "\".");
+
         return mode;
     }
 
     public Long getOriginalId() {
-        log.trace("getOriginalId returns \"" + originalId + "\""); // DEBUG
+        log.trace("getOriginalId() returns \"" + originalId + "\".");
+
         return originalId;
     }
 
     public String getName() {
-        log.trace("getName returns \"" + name + "\""); // DEBUG
+        log.trace("getName() returns \"" + name + "\".");
+
         return name;
     }
 
     public void setName(String name) {
-        log.trace("setName(" + name + ")"); // DEBUG
+        log.trace("Executing setName(" + name + ").");
+
         this.name = name;
     }
 
     public BigDecimal getDiscount() {
-        log.trace("getDiscount returns \"" + discount + "\""); // DEBUG
+        log.trace("getDiscount() returns \"" + discount + "\".");
+
         return discount;
     }
 
     public void setDiscount(BigDecimal discount) {
-        log.trace("setDiscount(" + discount + ")"); // DEBUG
+        log.trace("Executing setDiscount(" + discount + ").");
+
         this.discount = discount;
     }
 
     public String save() {
-        log.trace("save executing"); // DEBUG
+        log.trace("Executing save().");
+
         Customer customer = new Customer();
         if (mode == CrudMode.UPDATE) customer.setId(originalId);
         customer.setVersion(version);
@@ -123,7 +131,8 @@ public class CustomerEditBacking implements Serializable {
     }
 
     public String reload() {
-        log.trace("reload executing"); // DEBUG
+        log.trace("Executing reload().");
+
         FacesContextUtil.putInFlash("filterRequest", filterRequest);
         FacesContextUtil.putInFlash("mode", mode);
         FacesContextUtil.putInFlash("originalId", originalId);
@@ -131,7 +140,8 @@ public class CustomerEditBacking implements Serializable {
     }
 
     public String cancel() {
-        log.trace("cancel executing"); // DEBUG
+        log.trace("Executing cancel().");
+
         FacesContextUtil.putInFlash("filterRequest", filterRequest);
         return "CustomerList";
     }

@@ -47,70 +47,85 @@ public class CustomerListBacking implements Serializable {
     private boolean rebuildResultList = true;
 
     public CustomerListBacking() {
-        log.trace("constructed"); // DEBUG
+        log.trace("Constructing " + this.getClass().getSimpleName() + ".");
+
         filterRequest = (CustomerFilterRequest) FacesContextUtil.getFromFlash("filterRequest");
         if (filterRequest == null) filterRequest = new CustomerFilterRequest();
     }
 
     public Long getWhereId() {
-        log.trace("getWhereId returns \"" + filterRequest.getWhereId() + "\""); // DEBUG
+        log.trace("getWhereId() returns \"" + filterRequest.getWhereId() + "\".");
+
         return filterRequest.getWhereId();
     }
 
     public void setWhereId(Long whereId) {
-        log.trace("setWhereId(" + whereId + ")"); // DEBUG
+        log.trace("Executing setWhereId(" + whereId + ").");
+
         this.whereId = whereId;
     }
 
     public String getWhereName() {
-        log.trace("getWhereName returns \"" + filterRequest.getWhereName() + "\""); // DEBUG
+        log.trace("getWhereName() returns \"" + filterRequest.getWhereName() + "\".");
+
         return filterRequest.getWhereName();
     }
 
     public void setWhereName(String whereName) {
-        log.trace("setWhereName(" + whereName + ")"); // DEBUG
+        log.trace("Executing setWhereName(" + whereName + ").");
+
         this.whereName = whereName;
     }
 
     public BigDecimal getWhereDiscount() {
-        log.trace("getWhereDiscount returns \"" + filterRequest.getWhereDiscount() + "\""); // DEBUG
+        log.trace("getWhereDiscount() returns \"" + filterRequest.getWhereDiscount() + "\".");
+
         return filterRequest.getWhereDiscount();
     }
 
     public void setWhereDiscount(BigDecimal whereDiscount) {
-        log.trace("setWhereDiscount(" + whereDiscount + ")"); // DEBUG
+        log.trace("Executing setWhereDiscount(" + whereDiscount + ").");
+
         this.whereDiscount = whereDiscount;
     }
 
     public int getPageNumber() {
-        log.trace("getPageNumber returns \"" + (filterRequest.getFirst() / filterRequest.getMax() + 1) + "\""); // DEBUG
-        return filterRequest.getFirst() / filterRequest.getMax() + 1;
+        int pageNumber = filterRequest.getFirst() / filterRequest.getMax() + 1;
+
+        log.trace("getPageNumber() returns \"" + pageNumber + "\".");
+
+        return pageNumber;
     }
 
     public int getTotalPages() {
-        log.trace("getTotalPages starting"); // DEBUG
         int totalPages = (getFilterResponse().getCount().intValue() - 1) / filterRequest.getMax() + 1;
-        log.trace("getTotalPages returns \"" + totalPages + "\""); // DEBUG
+
+        log.trace("getTotalPages() returns \"" + totalPages + "\".");
+
         return totalPages;
     }
 
     public int getPageSize() {
-        log.trace("getPageSize returns \"" + filterRequest.getMax() + "\""); // DEBUG
+        log.trace("getPageSize() returns \"" + filterRequest.getMax() + "\".");
+
         return filterRequest.getMax();
     }
 
     public void setPageSize(int pageSize) {
-        log.trace("setPageSize(" + pageSize + ")"); // DEBUG
+        log.trace("Executing setPageSize(" + pageSize + ").");
+
         this.pageSize = pageSize;
     }
 
     public int[] getPageSizeOptions() {
-        log.trace("getPageSizeOptions returns \"" + Arrays.toString(CustomerFilterRequest.PAGE_SIZE_OPTIONS) + "\""); // DEBUG
+        log.trace("getPageSizeOptions() returns \"" + Arrays.toString(CustomerFilterRequest.PAGE_SIZE_OPTIONS) + "\".");
+
         return CustomerFilterRequest.PAGE_SIZE_OPTIONS;
     }
 
     public DataModel<CustomerRow> getResultList() {
-        log.trace("getResultList starting"); // DEBUG
+        log.trace("Executing getResultList().");
+
         if (rebuildResultList) {
             List<Customer> customers = getFilterResponse().getResultList();
             Collection<Long> checkedIds = getCheckedIds();
@@ -124,17 +139,21 @@ public class CustomerListBacking implements Serializable {
             resultList = new ListDataModel<CustomerRow>(rows);
             rebuildResultList = false;
         }
-        log.trace("getResultList returns \"" + resultList.getRowCount() + "\" rows"); // DEBUG
+
+        log.trace("getResultList returns \"" + resultList.getRowCount() + "\" rows");
+
         return resultList;
     }
 
     public String reload() {
-        log.trace("reload executing"); // DEBUG
+        log.trace("Executing reload().");
+
         return "CustomerList";
     }
 
     public String changeWhere() {
-        log.trace("changeWhere executing"); // DEBUG
+        log.trace("Executing changeWhere().");
+
         filterRequest.setWhereId(whereId);
         filterRequest.setWhereName(whereName);
         filterRequest.setWhereDiscount(whereDiscount);
@@ -147,7 +166,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String changeOrderBy() {
-        log.trace("changeOrderBy executing"); // DEBUG
+        log.trace("Executing changeOrderBy().");
+
         String orderByFieldStr = FacesContextUtil.getRequestParameter("orderByField");
         CustomerOrderByField orderByField = CustomerOrderByField.valueOf(orderByFieldStr);
         OrderByDirection orderByDirection = CustomerFilterRequest.DEFAULT_ORDER_BY_DIRECTION;
@@ -168,7 +188,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String changePageNumber() {
-        log.trace("changePageNumber executing"); // DEBUG
+        log.trace("Executing changePageNumber().");
+
         String pageNumberStr = FacesContextUtil.getRequestParameter("pageNumber");
         int pageNumber = Integer.parseInt(pageNumberStr);
 
@@ -179,7 +200,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public void changePageSize(ValueChangeEvent event) {
-        log.trace("changePageSize executing"); // DEBUG
+        log.trace("Executing changePageSize().");
+
         Integer newValue = (Integer) event.getNewValue();
         pageSize = newValue.intValue();
 
@@ -190,7 +212,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String delete() {
-        log.trace("delete executing"); // DEBUG
+        log.trace("Executing delete().");
+
         Collection<Long> checkedIds = getCheckedIds();
 
         // If the delete button was pressed, we should have at least one checked row.
@@ -223,7 +246,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String add() {
-        log.trace("add executing"); // DEBUG
+        log.trace("Executing add().");
+
         FacesContextUtil.putInFlash("filterRequest", filterRequest);
         FacesContextUtil.putInFlash("mode", CrudMode.ADD);
         FacesContextUtil.putInFlash("originalId", null);
@@ -231,7 +255,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String copy() {
-        log.trace("copy executing"); // DEBUG
+        log.trace("Executing copy().");
+
         Collection<Long> checkedIds = getCheckedIds();
 
         // If the copy button was pressed, we should have exactly one checked row.
@@ -253,7 +278,8 @@ public class CustomerListBacking implements Serializable {
     }
 
     public String edit() {
-        log.trace("edit executing"); // DEBUG
+        log.trace("Executing edit().");
+
         Long originalId = resultList.getRowData().getCustomer().getId();
         FacesContextUtil.putInFlash("filterRequest", filterRequest);
         FacesContextUtil.putInFlash("mode", CrudMode.UPDATE);
@@ -263,10 +289,10 @@ public class CustomerListBacking implements Serializable {
 
     private CustomerFilterResponse getFilterResponse() {
         if (filterResponse == null) {
-            log.trace("filterRequest=\"" + filterRequest + "\""); // DEBUG
+            log.trace("filterRequest=\"" + filterRequest + "\".");
             try {
                 filterResponse = CustomerService.filterCustomers(filterRequest);
-                log.trace("filterResponse=\"" + filterResponse + "\""); // DEBUG
+                log.trace("filterResponse=\"" + filterResponse + "\".");
             } catch (CrudException e) {
                 FacesContextUtil.addErrorMessage(e.getMessage());
             }
